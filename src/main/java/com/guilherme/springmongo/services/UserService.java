@@ -30,6 +30,23 @@ public class UserService {
 		return repo.insert( user );
 	}
 	
+	public void delete( String id ) {
+		findById(id);
+		repo.deleteById(id);
+	}
+	
+	public User update( User obj ) {
+		User newObj = findById(obj.getId());
+		updateObj( newObj, obj );
+		return repo.save(newObj);
+	}
+	
+	private void updateObj(User newObj, User obj) {
+		newObj.setName( obj.getName() );
+		newObj.setEmail( obj.getEmail() );
+		
+	}
+
 	public User fromDTO( UserDTO obj ) {
 		return new User(obj.getId(), obj.getName(), obj.getEmail());
 	}
