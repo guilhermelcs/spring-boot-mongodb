@@ -28,4 +28,8 @@ public class PostService {
 	public List<Post> searchTitle( String text ) {
 		return repo.searchTitle(text);
 	}
+	
+	public List<Post> searchText( String text ) {
+		return repo.searchText(text);
+	}
 }
