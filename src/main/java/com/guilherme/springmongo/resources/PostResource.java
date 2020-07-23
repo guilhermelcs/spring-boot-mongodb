@@ -30,7 +30,7 @@ public class PostResource {
 	@GetMapping( value = "/titlesearch" )
 	public ResponseEntity<List<Post>> findByTitle( @RequestParam( value = "text" ) String text ) {
 		String title = URL.decodeParam(text);
-		List<Post> posts = service.findByTitle(title);
+		List<Post> posts = service.searchTitle(title);
 		return ResponseEntity.ok().body(posts);
 	}
 }
