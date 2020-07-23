@@ -8,6 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
 import com.guilherme.springmongo.dto.AuthorDTO;
+import com.guilherme.springmongo.dto.CommentDTO;
 import com.guilherme.springmongo.entities.Post;
 import com.guilherme.springmongo.entities.User;
 import com.guilherme.springmongo.repositories.PostRepository;
@@ -17,7 +18,7 @@ import com.guilherme.springmongo.repositories.UserRepository;
 public class Instantiation implements CommandLineRunner {
 	
 	@Autowired
-	private UserRepository repo;
+	private UserRepository serviceRepo;
 
 	@Autowired
 	private PostRepository postRepo;
@@ -27,14 +28,14 @@ public class Instantiation implements CommandLineRunner {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
-		repo.deleteAll();
+		serviceRepo.deleteAll();
 		postRepo.deleteAll();
 		
 		User maria = new User(null, "Maria Brown", "maria@gmail.com");
 		User alex = new User(null, "Alex Green", "alex@gmail.com");
 		User bob = new User(null, "Bob Grey", "bob@gmail.com");
 		
-		repo.saveAll(Arrays.asList(maria, alex, bob));
+		serviceRepo.saveAll(Arrays.asList(maria, alex, bob));
 		
 		Post p1 = new Post(null, sdf.parse( "21/03/2018"),  "Partiu viagem",  "Vou viajar para São Paulo. Abraços!", new AuthorDTO( maria ));
 		Post p2 = new Post(null, sdf.parse( "21/03/2018"),  "Partiu viagem",  "Vou viajar para São Paulo. Abraços!", new AuthorDTO( alex ));
@@ -43,8 +44,13 @@ public class Instantiation implements CommandLineRunner {
 		maria.getPosts().addAll( Arrays.asList( p1, p3 ) );
 		alex.getPosts().addAll( Arrays.asList( p2 ) );
 		
+		CommentDTO comment1 = new CommentDTO("Boa viagem mano!", sdf.parse("21/03/2018"), new AuthorDTO( alex ) );
+		CommentDTO comment2 = new CommentDTO("Aproveite!", sdf.parse("21/03/2018"), new AuthorDTO( bob ) );	
+		
+		p1.getComments().addAll(Arrays.asList(comment1, comment2));
+		
 		postRepo.saveAll(Arrays.asList(p1, p2, p3));
-		repo.saveAll(Arrays.asList(maria, alex));
+		serviceRepo.saveAll(Arrays.asList(maria, alex));
+		
 	}
-	
 }
